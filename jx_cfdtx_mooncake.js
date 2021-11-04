@@ -142,12 +142,12 @@ async function userCashOutState(type = true) {
 }
 /*
 dwLvl=5&dwIsRandHb=0&ddwVirHb=20&strPoolName=anhjZmQyX2V4Y2hhbmdlX2hjaGJfMjAyMTEwMjc%3D&dwExchangeType=0
-4  500
+3  500
 2  1000
 */
 function cashOut() {
   return new Promise((resolve) => {
-    $.get(taskUrl(`user/ExchangePearlHb`, `dwLvl=2&dwIsRandHb=0&ddwVirHb=1000&strPoolName=anhjZmQyX2V4Y2hhbmdlX2hjaGJfMjAyMTEwMjM%3D&dwExchangeType=0`), (err, resp, data) => {
+    $.get(taskUrl(`user/ExchangePearlHb`, `dwLvl=3&dwIsRandHb=0&ddwVirHb=500&strPoolName=anhjZmQyX2V4Y2hhbmdlX2hjaGJfMjAyMTEwMjM%3D&dwExchangeType=0`), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
