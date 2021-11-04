@@ -15,7 +15,7 @@ cron "0 0 * * *" script-path= https://raw.githubusercontent.com/Ariszy/Private-S
 sjjc = type=cron,script-path= https://raw.githubusercontent.com/Ariszy/Private-Script/master/JD/zy_sjjc.js, cronexpr="0 0 * * *", timeout=3600, enable=true
 */
 const $ = new Env('手机竞猜');
-const $ = Env(Ariszy)
+//const $ = Env(Ariszy)
 const notify = $.isNode() ?require('./sendNotify') : '';
 cookiesArr = []
 CodeArr = []
