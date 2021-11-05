@@ -113,9 +113,7 @@ async function cfd() {
 }
 
 
-/*
-/jxbfd/user/ExchangePearlState?__t=1634196410089&strZone=jxbfd&dwExchangeType=undefined&_stk=__t%2CstrZone&_ste=1&h5st=20211014152650089%3B8478250666362163%3B10032%3Btk01wa8aa1c2f30n4iDm6GuZDrVu%2BdntGctu0dEjmLF7HK1EAKLBhegrKlxpLKMzWjOKDB4crIt5VwyA7tJD5PcT2hau%3Bfa79dfc37e38a2bd1f23573f8d77343df07c40a6fa8eb9f3e44f44ca1b4044e7&_=1634196410095&sceneval=2&g_login_type=1&callback=jsonpCBKO&g_ty=ls HTTP/1.1
-*/
+
 async function userCashOutState(type = true) {
   return new Promise(async (resolve) => {
     $.get(taskUrl1(`user/ExchangePearlState`), async (err, resp, data) => {
@@ -147,7 +145,7 @@ dwLvl=5&dwIsRandHb=0&ddwVirHb=20&strPoolName=anhjZmQyX2V4Y2hhbmdlX2hjaGJfMjAyMTE
 */
 function cashOut() {
   return new Promise((resolve) => {
-    $.get(taskUrl(`user/ExchangePearlHb`, `dwLvl=3&dwIsRandHb=0&ddwVirHb=500&strPoolName=anhjZmQyX2V4Y2hhbmdlX2hjaGJfMjAyMTEwMjM%3D&dwExchangeType=0`), (err, resp, data) => {
+    $.get(taskUrl(`user/ExchangePearlHb`, `dwLvl=2&dwIsRandHb=0&ddwVirHb=1000&strPoolName=anhjZmQyX2V4Y2hhbmdlX2hjaGJfMjAyMTEwMjM%3D&dwExchangeType=0`), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -225,11 +223,12 @@ function getUserInfo(showInvite = true) {
 function sleep(timeout) {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 }
-/*GET /jxbfd/user/ExchangePearlHb?__t=1635992233007&strZone=jxbfd&dwLvl=5&dwIsRandHb=0&ddwVirHb=20&strPoolName=anhjZmQyX2V4Y2hhbmdlX2hjaGJfMjAyMTEwMjc%3D&dwExchangeType=0&_stk=__t%2CddwVirHb%2CdwExchangeType%2CdwIsRandHb%2CdwLvl%2CstrPoolName%2CstrZone&_ste=1&h5st=20211104101713008%3B9147285402487163%3B10032%3Btk01wc5db1ce730nVxkxGWVMVU%2FUgLZs4MkhLgDPoggTIEbw12lkhcyfaAf%2BzZT9q3tqU4lJDHEa7fShywaSDezEPEXg%3Bd8661894f75962a591a8ea31b8eed9e239efd55527403a6db1e8e7937c3c3274&_=1635992233011&sceneval=2&g_login_type=1&callback=jsonpCBKG&g_ty=ls HTTP/1.1
+/*
+GET /jxbfd/user/ExchangePearlHb?__t=1636091597801&strZone=jxbfd&dwLvl=5&dwIsRandHb=0&ddwVirHb=20&strPoolName=anhjZmQyX2V4Y2hhbmdlX2hjaGJfMjAyMTExMDQ%3D&dwExchangeType=0&_stk=__t%2CddwVirHb%2CdwExchangeType%2CdwIsRandHb%2CdwLvl%2CstrPoolName%2CstrZone&_ste=1&h5st=20211105135317801%3B9147285402487163%3B10032%3Btk01w8c371bd830n41M2GMPBMHuLz1vUy0kQYtm9ZZ4pz7Xw7JcsQMBWGhsq%2FJsVcYQbnFUeLKQ5QmaFq8yMrz3%2B3Ehn%3B83b9240213b4c8a445094c109491f8a7f82403e743dcfb2efeb8627276f8ae04&_=1636091597804&sceneval=2&g_login_type=1&callback=jsonpCBKF&g_ty=ls HTTP/1.1
 */
 function taskUrl(function_path, body = '') {
-  let url = `${JD_API_HOST}jxbfd/${function_path}?__t=1635992233007&strZone=jxbfd&${body}&_stk=__t%2CddwVirHb%2CdwExchangeType%2CdwIsRandHb%2CdwLvl%2CstrPoolName%2CstrZone&_ste=1`;
-  url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBKG&g_ty=ls`;
+  let url = `${JD_API_HOST}jxbfd/${function_path}?__t=1636091597801&strZone=jxbfd&${body}&_stk=__t%2CddwVirHb%2CdwExchangeType%2CdwIsRandHb%2CdwLvl%2CstrPoolName%2CstrZone&_ste=1`;
+  url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBKF&g_ty=ls`;
   return {
     url,
     headers: {

@@ -4,7 +4,10 @@
 # 环境变量JD_COOKIE，wy_swell，多账号用&分割
 # export JD_COOKIE="第1个cookie&第2个cookie"
 # export wy_swell="助力码1&助力码12"
-
+'''
+cron: 40 20 * * *
+new Env('双11组队竞猜赢大奖膨胀金助力');
+'''
 import os,json,random,time,re,string
 import sys
 sys.path.append('../../tmp')

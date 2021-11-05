@@ -7,7 +7,7 @@ Author: Curtin
 Date: 2021/10/23 下午4:15
 TG交流 https://t.me/topstyle996
 TG频道 https://t.me/TopStyle2021
-cron: 0 0 * * *
+cron: 20 0 * * *
 new Env('东东农场-助力');
 '''
 # 是否按ck顺序助力, true: 按顺序助力 false：按指定用户助力，默认true
