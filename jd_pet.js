@@ -42,7 +42,7 @@ let goodsUrl = '', taskInfoKey = [];
 let randomCount = $.isNode() ? 0 : 0;
 !(async () => {
   await requireConfig();
-  await shareCodesFormat();
+  //await shareCodesFormat();
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -131,7 +131,7 @@ async function jdPet() {
       $.taskInfo = $.taskInit.result;
 
       await petSport();//遛弯
-      await slaveHelp();//助力好友
+      //await slaveHelp();//助力好友
       await masterHelpInit();//获取助力的信息
       await doTask();//做日常任务
       await feedPetsAgain();//再次投食
