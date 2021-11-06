@@ -84,13 +84,13 @@ if ($.isNode()) {
       await $.wait(2000);
     }
   }
-  let res = await getAuthorShareCode('https://raw.githubusercontent.com/1Aaron-lv/updateTeam/master/shareCodes/cfd.json')
-  if (!res) {
-    $.http.get({url: 'https://purge.jsdelivr.net/gh/1Aaron-lv/updateTeam@master/shareCodes/cfd.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
-    await $.wait(1000)
-    res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/1Aaron-lv/updateTeam@master/shareCodes/cfd.json')
-  }
-  $.strMyShareIds = [...(res && res.shareId || [])]
+  // let res = await getAuthorShareCode('https://raw.githubusercontent.com/1Aaron-lv/updateTeam/master/shareCodes/cfd.json')
+  // if (!res) {
+  //   $.http.get({url: 'https://purge.jsdelivr.net/gh/1Aaron-lv/updateTeam@master/shareCodes/cfd.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
+  //   await $.wait(1000)
+  //   res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/1Aaron-lv/updateTeam@master/shareCodes/cfd.json')
+  // }
+  // $.strMyShareIds = [...(res && res.shareId || [])]
   await shareCodesFormat()
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
@@ -1136,7 +1136,7 @@ function getUserInfo(showInvite = true) {
             console.log(`财富岛好友互助码每次运行都变化,旧的当天有效`);
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}`);
             $.shareCodes.push(strMyShareId)
-            await uploadShareCode(strMyShareId)
+            //await uploadShareCode(strMyShareId)
           }
           $.info = {
             ...$.info,
@@ -1591,7 +1591,7 @@ function uploadShareCode(code) {
 function shareCodesFormat() {
   return new Promise(async resolve => {
     $.newShareCodes = []
-    const readShareCodeRes = await readShareCode();
+    //const readShareCodeRes = await readShareCode();
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds, ...(readShareCodeRes.data || [])])];
     } else {
