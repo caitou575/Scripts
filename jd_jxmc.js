@@ -1,6 +1,6 @@
 /**
  惊喜牧场
- cron 23 0-23/2 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxmc.js
+ cron 23 6-23/2 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxmc.js
  环境变量：JX_USER_AGENT, 惊喜APP的UA。领取助力任务奖励需要惊喜APP的UA,有能力的可以填上自己的UA,默认生成随机UA
  环境变量：BYTYPE,购买小鸡品种，默认不购买,(ps:暂时不知道买哪个好)
  BYTYPE="1",购买小黄鸡，BYTYPE="2",购买辣子鸡，BYTYPE="3",购买椰子鸡,BYTYPE="4",购买猪肚鸡,BYTYPE="999",能买哪只买哪只,BYTYPE="888",不购买小鸡
@@ -65,7 +65,7 @@ if ($.isNode()) {
         }
         await $.wait(2000);
     }
-    if(new Date().getHours() !== 9 && new Date().getHours() !== 10){
+    if(new Date().getHours() !== 9 && new Date().getHours() !== 10 && new Date().getHours() !== 11 && new Date().getHours() !== 12){
         console.log('\n脚本早上9点到10点直接执行，才会执行账号内互助');
         return ;
     }

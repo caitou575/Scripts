@@ -5,7 +5,7 @@
 # export JD_COOKIE="第1个cookie&第2个cookie"
 # export nnfls_Lucky="yes"     # 是否抽奖 yes或no，不填默认yes
 '''
-cron: 21 0,20 * * *
+cron: 21 5,20 * * *
 new Env('牛牛福利社');
 '''
 
