@@ -91,21 +91,21 @@ if ($.isNode()) {
   //   res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/1Aaron-lv/updateTeam@master/shareCodes/cfd.json')
   // }
   // $.strMyShareIds = [...(res && res.shareId || [])]
-  await shareCodesFormat();
+  //await shareCodesFormat();
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
     $.canHelp = true
     UA = UAInfo[$.UserName]
-    if ($.newShareCodes && $.newShareCodes.length) {
+    if ($.shareCodes && $.shareCodes.length) {
       console.log(`\n开始互助\n`);
-      for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
-        console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
+      for (let j = 0; j < $.shareCodes.length && $.canHelp; j++) {
+        console.log(`账号${$.UserName} 去助力 ${$.shareCodes[j]}`)
         $.delcode = false
-        await helpByStage($.newShareCodes[j])
+        await helpByStage($.shareCodes[j])
         await $.wait(2000)
         if ($.delcode) {
-          $.newShareCodes.splice(j, 1)
+          $.shareCodes.splice(j, 1)
           j--
           continue
         }
@@ -283,41 +283,41 @@ async function cfd() {
 }
 
 // 使用道具
-function GetPropCardCenterInfo() {
-  return new Promise((resolve) => {
-    $.get(taskUrl(`user/GetPropCardCenterInfo`), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(JSON.stringify(err))
-          console.log(`${$.name} GetPropCardCenterInfo API请求失败，请检查网路重试`)
-        } else {
-          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
-          if (data.iRet === 0) {
-            console.log(`使用道具卡`)
-            if (data.cardInfo.dwWorkingType === 0) {
-              $.canuse = false;
-              for (let key of Object.keys(data.cardInfo.coincard)) {
-                let vo = data.cardInfo.coincard[key]
-                if (vo.dwCardNums > 0) {
-                  $.canuse = true;
-                  await UsePropCard(vo.strCardTypeIndex)
-                  break;
-                }
-              }
-              if (!$.canuse) console.log(`无可用道具卡\n`)
-            } else {
-              console.log(`有在使用中的道具卡，跳过使用\n`)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve();
-      }
-    })
-  })
-}
+// function GetPropCardCenterInfo() {
+//   return new Promise((resolve) => {
+//     $.get(taskUrl(`user/GetPropCardCenterInfo`), async (err, resp, data) => {
+//       try {
+//         if (err) {
+//           console.log(JSON.stringify(err))
+//           console.log(`${$.name} GetPropCardCenterInfo API请求失败，请检查网路重试`)
+//         } else {
+//           data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
+//           if (data.iRet === 0) {
+//             console.log(`使用道具卡`)
+//             if (data.cardInfo.dwWorkingType === 0) {
+//               $.canuse = false;
+//               for (let key of Object.keys(data.cardInfo.coincard)) {
+//                 let vo = data.cardInfo.coincard[key]
+//                 if (vo.dwCardNums > 0) {
+//                   $.canuse = true;
+//                   await UsePropCard(vo.strCardTypeIndex)
+//                   break;
+//                 }
+//               }
+//               if (!$.canuse) console.log(`无可用道具卡\n`)
+//             } else {
+//               console.log(`有在使用中的道具卡，跳过使用\n`)
+//             }
+//           }
+//         }
+//       } catch (e) {
+//         $.logErr(e, resp);
+//       } finally {
+//         resolve();
+//       }
+//     })
+//   })
+// }
 function UsePropCard(strCardTypeIndex) {
   return new Promise((resolve) => {
     let dwCardType = strCardTypeIndex.split("_")[0];
@@ -1530,77 +1530,77 @@ function showMsg() {
   });
 }
 
-function readShareCode() {
-  return new Promise(async resolve => {
-    $.get({url: `https://raw.githubusercontent.com/caitou575/sharecodes/main/jd_cfd.json`, 'timeout': 10000}, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (data) {
-            console.log(`助力池获取成功`)
-            data = JSON.parse(data);
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-    await $.wait(10000);
-    resolve()
-  })
-}
-function uploadShareCode(code) {
-  return new Promise(async resolve => {
-    $.post({url: `https://transfer.nz.lu/upload/cfd?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent($.UserName))}`, timeout: 30 * 1000}, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(JSON.stringify(err))
-          console.log(`${$.name} uploadShareCode API请求失败，请检查网路重试`)
-        } else {
-          if (data) {
-            if (data === 'OK') {
-              console.log(`已自动提交助力码\n`)
-            } else if (data === 'error') {
-              console.log(`助力码格式错误，乱玩API是要被打屁屁的~\n`)
-            } else if (data === 'full') {
-              console.log(`车位已满，请等待下一班次\n`)
-            } else if (data === 'exist') {
-              console.log(`助力码已经提交过了~\n`)
-            } else if (data === 'not in whitelist') {
-              console.log(`提交助力码失败，此用户不在白名单中\n`)
-            } else {
-              console.log(`未知错误：${data}\n`)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-    await $.wait(10000);
-    resolve()
-  })
-}
-//格式化助力码
-function shareCodesFormat() {
-  return new Promise(async resolve => {
-    $.newShareCodes = []
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes) {
-      $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds, ...(readShareCodeRes.data || [])])];
-    } else {
-      $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds])];
-    }
-    console.log(`您将要助力的好友${JSON.stringify($.newShareCodes)}`)
-    resolve();
-  })
-}
+// function readShareCode() {
+//   return new Promise(async resolve => {
+//     $.get({url: `https://raw.githubusercontent.com/caitou575/sharecodes/main/jd_cfd.json`, 'timeout': 10000}, (err, resp, data) => {
+//       try {
+//         if (err) {
+//           console.log(`${JSON.stringify(err)}`)
+//           console.log(`${$.name} API请求失败，请检查网路重试`)
+//         } else {
+//           if (data) {
+//             console.log(`助力池获取成功`)
+//             data = JSON.parse(data);
+//           }
+//         }
+//       } catch (e) {
+//         $.logErr(e, resp)
+//       } finally {
+//         resolve(data);
+//       }
+//     })
+//     await $.wait(10000);
+//     resolve()
+//   })
+// }
+// function uploadShareCode(code) {
+//   return new Promise(async resolve => {
+//     $.post({url: `https://transfer.nz.lu/upload/cfd?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent($.UserName))}`, timeout: 30 * 1000}, (err, resp, data) => {
+//       try {
+//         if (err) {
+//           console.log(JSON.stringify(err))
+//           console.log(`${$.name} uploadShareCode API请求失败，请检查网路重试`)
+//         } else {
+//           if (data) {
+//             if (data === 'OK') {
+//               console.log(`已自动提交助力码\n`)
+//             } else if (data === 'error') {
+//               console.log(`助力码格式错误，乱玩API是要被打屁屁的~\n`)
+//             } else if (data === 'full') {
+//               console.log(`车位已满，请等待下一班次\n`)
+//             } else if (data === 'exist') {
+//               console.log(`助力码已经提交过了~\n`)
+//             } else if (data === 'not in whitelist') {
+//               console.log(`提交助力码失败，此用户不在白名单中\n`)
+//             } else {
+//               console.log(`未知错误：${data}\n`)
+//             }
+//           }
+//         }
+//       } catch (e) {
+//         $.logErr(e, resp)
+//       } finally {
+//         resolve(data);
+//       }
+//     })
+//     await $.wait(10000);
+//     resolve()
+//   })
+// }
+// //格式化助力码
+// function shareCodesFormat() {
+//   return new Promise(async resolve => {
+//     $.newShareCodes = []
+//     const readShareCodeRes = await readShareCode();
+//     if (readShareCodeRes) {
+//       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds, ...(readShareCodeRes.data || [])])];
+//     } else {
+//       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds])];
+//     }
+//     console.log(`您将要助力的好友${JSON.stringify($.newShareCodes)}`)
+//     resolve();
+//   })
+// }
 
 function TotalBean() {
   return new Promise(resolve => {
