@@ -1530,29 +1530,29 @@ function showMsg() {
   });
 }
 
-// function readShareCode() {
-//   return new Promise(async resolve => {
-//     $.get({url: `https://raw.githubusercontent.com/caitou575/sharecodes/main/jd_cfd.json`, 'timeout': 10000}, (err, resp, data) => {
-//       try {
-//         if (err) {
-//           console.log(`${JSON.stringify(err)}`)
-//           console.log(`${$.name} API请求失败，请检查网路重试`)
-//         } else {
-//           if (data) {
-//             console.log(`助力池获取成功`)
-//             data = JSON.parse(data);
-//           }
-//         }
-//       } catch (e) {
-//         $.logErr(e, resp)
-//       } finally {
-//         resolve(data);
-//       }
-//     })
-//     await $.wait(10000);
-//     resolve()
-//   })
-// }
+function readShareCode() {
+  return new Promise(async resolve => {
+    $.get({url: `https://raw.githubusercontent.com/caitou575/sharecodes/main/jd_cfd.json`, 'timeout': 10000}, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (data) {
+            console.log(`助力池获取成功`)
+            data = JSON.parse(data);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
+    await $.wait(10000);
+    resolve()
+  })
+}
 // function uploadShareCode(code) {
 //   return new Promise(async resolve => {
 //     $.post({url: `https://transfer.nz.lu/upload/cfd?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent($.UserName))}`, timeout: 30 * 1000}, (err, resp, data) => {
@@ -1587,20 +1587,20 @@ function showMsg() {
 //     resolve()
 //   })
 // }
-// //格式化助力码
-// function shareCodesFormat() {
-//   return new Promise(async resolve => {
-//     $.newShareCodes = []
-//     const readShareCodeRes = await readShareCode();
-//     if (readShareCodeRes) {
-//       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds, ...(readShareCodeRes.data || [])])];
-//     } else {
-//       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds])];
-//     }
-//     console.log(`您将要助力的好友${JSON.stringify($.newShareCodes)}`)
-//     resolve();
-//   })
-// }
+//格式化助力码
+function shareCodesFormat() {
+  return new Promise(async resolve => {
+    $.newShareCodes = []
+    const readShareCodeRes = await readShareCode();
+    if (readShareCodeRes) {
+      $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds, ...(readShareCodeRes.data || [])])];
+    } else {
+      $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds])];
+    }
+    console.log(`您将要助力的好友${JSON.stringify($.newShareCodes)}`)
+    resolve();
+  })
+}
 
 function TotalBean() {
   return new Promise(resolve => {
