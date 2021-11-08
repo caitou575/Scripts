@@ -44,6 +44,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 !(async () => {
   await requireConfig();
+  await shareCodesFormat();
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
@@ -1308,14 +1309,14 @@ function timeFormat(time) {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `http://`, timeout: 10000}, (err, resp, data) => {
+    $.get({url: `https://raw.githubusercontent.com/caitou575/sharecodes/main/jd_fruit.json`, timeout: 10000,}, (err, resp, data) => {
       try {
         if (err) {
-          console.log(JSON.stringify(err))
+          console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (data) {
-            console.log(`随机取个${randomCount}码放到您固定的互助码后面(不影响已有固定互助)`)
+            console.log(`获取助力池成功`)
             data = JSON.parse(data);
           }
         }
@@ -1332,22 +1333,34 @@ function readShareCode() {
 function shareCodesFormat() {
   return new Promise(async resolve => {
     // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-    newShareCodes = [];
-    if ($.shareCodesArr[$.index - 1]) {
-      newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    } else {
-      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
-      newShareCodes = shareCodes[tempIndex].split('@');
-    }
+    newShareCodes = ["5b818d4eeaa843f9b5d294aba5d67e34","3ad25d50bbb24c498cacb3ddd6f0ff47","572c1c5a198f45f68a082a096eeb5758","cc3a8ce235d540d9ae0a8547b811a275"];
+    //if ($.shareCodesArr[$.index - 1]) {
+    //  newShareCodes = $.shareCodesArr[$.index - 1].split('@');
+    //} else {
+    //  console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+    //  const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
+    //  newShareCodes = shareCodes[tempIndex].split('@');
+    //}
     const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      // newShareCodes = newShareCodes.concat(readShareCodeRes.data || []);
-      newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
+    if (readShareCodeRes) {
+      readShareCodeRes.data = readShareCodeRes.data.filter(function(n){return n});//去除空值
+      rdmsharecodes = await getRandomArrayElements(readShareCodeRes.data,Math.ceil(cookiesArr.length*3/5));//随机抽n个取助力码
+      newShareCodes = [...new Set([...newShareCodes, ...(rdmsharecodes || [])])];//添加固定助力码后去重生成最终助力池
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
     resolve();
   })
+}
+//随机抽取助力码
+function getRandomArrayElements(arr, count) {
+  var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+  while (i-- > min) {
+      index = Math.floor((i + 1) * Math.random());
+      temp = shuffled[index];
+      shuffled[index] = shuffled[i];
+      shuffled[i] = temp;
+  }
+  return shuffled.slice(min);
 }
 function requireConfig() {
   return new Promise(resolve => {
