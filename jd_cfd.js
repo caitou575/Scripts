@@ -1532,7 +1532,7 @@ function showMsg() {
 
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `https://`, timeout: 30 * 1000}, (err, resp, data) => {
+    $.get({url: `https://`, timeout: 3 * 1000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
