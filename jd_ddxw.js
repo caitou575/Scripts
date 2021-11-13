@@ -9,9 +9,9 @@ const joypin ='https://jdjoy.jd.com/saas/framework/encrypt/pin?appId=8b3a828b833
 let cookiesArr = [], cookie = '', message;
 var timestamp = Math.round(new Date().getTime()/1000).toString();
 
-let insertCodes = []
-let inviteCodes = []
-let shop=[]
+let insertCodes = [];
+let inviteCodes = [];
+let shop = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -273,14 +273,14 @@ function getTaskList() {
              shopName = list[i].shopName
              
              shop.push({shopa:shopId})
-             //console.log(shop)
-             //console.log(shopId)
-             //await doTask('addCart',shopId)
+             console.log(shop)
+             console.log(shopId)
+             await doTask('addCart',shopId)
              
              }
-             let(let code of shop){
-              await doTask('addCart',code['shopa'])    
-             }
+            //  let(let code of shop){
+            //   await doTask('addCart',code['shopa'])    
+            //  }
              }             
              else if(data.success==false){
              console.log(`${data.msg}`)
