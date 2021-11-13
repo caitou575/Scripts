@@ -1377,7 +1377,7 @@ function awardTask(taskType, taskinfo) {
               if(msg.indexOf('活动太火爆了') !== -1) {
                 console.log(`活动太火爆了`)
               } else {
-                console.log(`【领卡片奖励】${strTaskName} 获得 ${JSON.parse(prizeInfo).CardInfo.CardList[0].strCardName}\n${$.showLog ? data : ''}`);
+                //console.log(`【领卡片奖励】${strTaskName} 获得 ${JSON.parse(prizeInfo).CardInfo.CardList[0].strCardName}\n${$.showLog ? data : ''}`);
               }
             }
           } catch (e) {
@@ -1591,8 +1591,8 @@ function uploadShareCode(code) {
 function shareCodesFormat() {
   return new Promise(async resolve => {
     $.newShareCodes = []
-    //const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
+    const readShareCodeRes = await readShareCode();
+    if (false) {
       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds, ...(readShareCodeRes.data || [])])];
     } else {
       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds])];
