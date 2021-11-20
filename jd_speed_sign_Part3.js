@@ -1,5 +1,5 @@
 /*
-cron "0 8 * * *" jd_speed_sign_Part3.js, tag:京东极速版任务1
+cron "0 7 * * *" jd_speed_sign_Part3.js, tag:京东极速版任务1
 */
  //详细说明参考 https://github.com/ccwav/QLScript2.
 const $ = new Env('京东极速版任务3');
@@ -28,18 +28,16 @@ const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  let ckp2=Math.ceil(cookiesArr.length/10)*2;
-  let ckp3=Math.ceil(cookiesArr.length/10)*3;
-  
-  if (ckp3>cookiesArr.length){
-	  ckp3=cookiesArr.length;
-  }
-  if (ckp2>=ckp3){
-	  console.log(`账号太少不需要第二个任务,跳出\n`);
+  let lnStartAcc=Math.ceil(cookiesArr.length/3)*2;
+  let lnTotalAcc=cookiesArr.length;
+  if (lnStartAcc>=lnTotalAcc){
+	  console.log(`账号太少不需要第三个任务,跳出\n`);
 	  return 
   }
-  console.log(`本次执行第${ckp2+1}到${ckp3}个账号\n`);
-  for (let i = ckp2 ; i < ckp3; i++) {
+	  
+  
+  console.log(`本次执行第${lnStartAcc+1}到${lnTotalAcc}个账号\n`);
+  for (let i = lnStartAcc ; i < lnTotalAcc; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
