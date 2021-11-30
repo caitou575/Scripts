@@ -8,7 +8,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
-
+let llAPIError=false;
 let cookiesArr = [], cookie = '', message;
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -28,18 +28,18 @@ const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  let ckp1=Math.ceil(cookiesArr.length/10);
-  let ckp2=Math.ceil(cookiesArr.length/10)*2;
+  let lnStartAcc=Math.ceil(cookiesArr.length/3);
+  let lnTotalAcc=Math.ceil(cookiesArr.length/3)*2;
   
-  if (ckp2>cookiesArr.length){
-	  ckp2=cookiesArr.length;
+  if (lnTotalAcc>cookiesArr.length){
+	  lnTotalAcc=cookiesArr.length;
   }
-  if (ckp1>=ckp2){
+  if (lnStartAcc>=lnTotalAcc){
 	  console.log(`账号太少不需要第二个任务,跳出\n`);
 	  return 
   }
-  console.log(`本次执行第${ckp1+1}到${ckp2}个账号\n`);
-  for (let i = ckp1 ; i < ckp2; i++) {
+  console.log(`本次执行第${lnStartAcc+1}到${lnTotalAcc}个账号\n`);
+  for (let i = lnStartAcc ; i < lnTotalAcc; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -58,7 +58,12 @@ const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
         continue
       }
       await jdGlobal()
-      await $.wait(2*1000)
+      await $.wait(10*1000)
+	  
+	  if (llAPIError){
+		console.log(`黑IP了，赶紧重新拨号换个IP吧`);
+		break;
+	  }
     }
   }
 })()
@@ -77,13 +82,13 @@ async function jdGlobal() {
     await apTaskList()
     await wheelsHome()
 
-    await signInit()
-    await sign()
+    //await signInit()
+    //await sign()
     $.score = 0
     $.total = 0
     await taskList()
     await queryJoy()
-    await signInit()
+    //await signInit()
     await cash()
     await showMsg()
   } catch (e) {
@@ -173,7 +178,7 @@ async function taskList() {
             if (safeGet(data)) {
               data = JSON.parse(data);
               for (let task of data.data) {
-                $.taskName = task.taskInfo.mainTitle
+                $.taskName = task.taskInfo.mainTitle;
                 if (task.taskInfo.status === 0) {
                   if (task.taskType >= 1000) {
                     await doTask(task.taskType)
@@ -191,6 +196,8 @@ async function taskList() {
                 } else {
                   console.log(`${task.taskInfo.mainTitle}已完成`)
                 }
+				if (llAPIError)
+					break;	
               }
             }
           }
@@ -213,6 +220,7 @@ async function doTask(taskId) {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
+		  llAPIError=true;
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
@@ -300,6 +308,8 @@ async function queryItem(activeType = 1) {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
+		  $.canStartNewItem = false;
+		  llAPIError=true;
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
@@ -336,6 +346,8 @@ async function startItem(activeId, activeType) {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
+		  $.canStartNewItem = false;
+		  llAPIError=true;
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
@@ -346,7 +358,9 @@ async function startItem(activeId, activeType) {
                   videoBrowsing = activeType === 1 ? 5 : 10
                 console.log(`【${taskCompletionProgress + 1}/${taskCompletionLimit}】浏览商品任务记录成功，等待${videoBrowsing}秒`)
                 await $.wait(videoBrowsing * 1000)
+				await $.wait(3000);
                 await endItem(data.data.uuid, activeType, activeId, activeType === 3 ? videoBrowsing : "")
+				await $.wait(1000);
               } else {
                 console.log(`${$.taskName}任务已达上限`)
                 $.canStartNewItem = false
