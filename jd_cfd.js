@@ -81,7 +81,7 @@ if ($.isNode()) {
       $.info = {}
       token = await getJxToken()
       await cfd();
-      await $.wait(2000);
+      await $.wait(180000);
     }
   }
   let res = []
