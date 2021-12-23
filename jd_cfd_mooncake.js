@@ -98,7 +98,7 @@ if ($.isNode()) {
       for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
         console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
         $.delcode = false
-        await helpByStage($.newShareCodes[j])
+        //await helpByStage($.newShareCodes[j])
         await $.wait(2000)
         if ($.delcode) {
           $.newShareCodes.splice(j, 1)
