@@ -30,7 +30,7 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let inviteCodes = [
-  'ryUX_oNMGVAZRqXG9PA8hr5qSX0-YJO',
+  '-ryUX_oNMGVAZRqXG9PA8hr5qSX0-YJO',
 ]
 !(async () => {
   if (!cookiesArr[0]) {
