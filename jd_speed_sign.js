@@ -669,7 +669,7 @@ function invite2() {
   let t = +new Date()
   let inviterIdArr = [
     "TqX7VpttIBtdfziyK1TZmjVLyOauY1Pis2hcE76qLkA=",
-    "TqX7VpttIBtdfziyK1TZmjVLyOauY1Pis2hcE76qLkA=",
+    "3DmBs8MUpBKSyA6x4EAeMi6A",
   ]
   let inviterId = inviterIdArr[Math.floor((Math.random() * inviterIdArr.length))]
   let options = {
@@ -696,7 +696,7 @@ function invite() {
   let t = +new Date()
   let inviterIdArr = [
     "TqX7VpttIBtdfziyK1TZmjVLyOauY1Pis2hcE76qLkA=",
-    "TqX7VpttIBtdfziyK1TZmjVLyOauY1Pis2hcE76qLkA=",
+    "3DmBs8MUpBKSyA6x4EAeMi6A",
   ]
   let inviterId = inviterIdArr[Math.floor((Math.random() * inviterIdArr.length))]
   let options = {
