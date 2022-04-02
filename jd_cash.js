@@ -27,7 +27,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
-let helpAuthor = true;
+let pandatoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTgyNzEwODcwLCJpYXQiOjE2NDg4NzAyMTUsImV4cCI6MTY4MDQwNjIxNX0.oQpzzkaPl_l8WM04PYMVuISeSuia0X4KzjMArBlbn-A';
 const randomCount = $.isNode() ? 5 : 5;
 let cash_exchange = false;//是否消耗2元红包兑换200京豆，默认否
 const inviteCodes = []
@@ -282,7 +282,7 @@ function getSignfromPanda(functionId, body) {
 		        'Accept': '*/*',
 		        "accept-encoding": "gzip, deflate, br",
 		        'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTgyNzEwODcwLCJpYXQiOjE2NDg4NzAyMTUsImV4cCI6MTY4MDQwNjIxNX0.oQpzzkaPl_l8WM04PYMVuISeSuia0X4KzjMArBlbn-A'
+            'Authorization': `Bearer ${pandatoken}`
 		    },
 		    timeout: 30000
         }
