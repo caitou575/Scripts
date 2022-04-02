@@ -282,6 +282,7 @@ function getSignfromPanda(functionId, body) {
 		        'Accept': '*/*',
 		        "accept-encoding": "gzip, deflate, br",
 		        'Content-Type': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTgyNzEwODcwLCJpYXQiOjE2NDg4NzAyMTUsImV4cCI6MTY4MDQwNjIxNX0.oQpzzkaPl_l8WM04PYMVuISeSuia0X4KzjMArBlbn-A'
 		    },
 		    timeout: 30000
         }
