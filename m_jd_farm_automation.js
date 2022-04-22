@@ -2,8 +2,8 @@
 //问题反馈:https://t.me/Wall_E_Channel
 const {Env} = require('./magic');
 const $ = new Env('M农场自动化');
-let level = process.env.M_JD_FARM_LEVEL ? process.env.M_JD_FARM_LEVEL * 1 : 2
-$.log('默认种植2级种子，自行配置请配置 M_JD_FARM_LEVEL')
+let level = process.env.M_JD_FARM_LEVEL ? process.env.M_JD_FARM_LEVEL * 1 : 4
+$.log('默认种植4级种子，自行配置请配置 M_JD_FARM_LEVEL')
 $.logic = async function () {
     let info = await api('initForFarm',
         {"version": 11, "channel": 3, "babelChannel": 0});
